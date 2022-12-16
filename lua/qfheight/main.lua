@@ -54,7 +54,7 @@ function Qfheight:enable()
           end
         end
       elseif vim.opt.buftype:get() == "quickfix" then
-        self:set(0)
+        self:set()
       end
     end,
   })
@@ -65,9 +65,12 @@ function Qfheight:disable()
   vim.api.nvim_clear_autocmds { group = self.augroup }
 end
 
----@param winid integer
+---@param winid integer?
 ---@return nil
 function Qfheight:set(winid)
+  if not winid or winid == 0 then
+    winid = vim.api.nvim_get_current_win()
+  end
   local i = 0
   local count = 0
   local last = vim.fn.line("$", winid) - 1
