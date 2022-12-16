@@ -47,13 +47,11 @@ function Qfheight:enable()
     ---@param args { event: string }
     callback = function(args)
       if args.event == "VimResized" then
-        ---@type integer[]
-        local quickfixes = vim.tbl_filter(function(winid)
+        for _, winid in ipairs(vim.api.nvim_list_wins()) do
           local bufnr = vim.api.nvim_win_get_buf(winid)
-          return vim.api.nvim_buf_get_option(bufnr, "buftype") == "quickfix"
-        end, vim.api.nvim_list_wins())
-        for _, winid in ipairs(quickfixes) do
-          self:set(winid)
+          if vim.api.nvim_buf_get_option(bufnr, "buftype") == "quickfix" then
+            self:set(winid)
+          end
         end
       elseif vim.opt.buftype:get() == "quickfix" then
         self:set(0)
