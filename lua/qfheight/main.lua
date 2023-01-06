@@ -19,7 +19,7 @@ end
 ---@param opts qfheight.main.Options
 ---@return nil
 function Qfheight:setup(opts)
-  self.opts = vim.tbl_extend("force", self.default_options, opts)
+  self.opts = vim.tbl_extend("force", self.default_options, opts or {})
   vim.validate {
     max = {
       self.opts.max,
